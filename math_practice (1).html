@@ -1,0 +1,1624 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<title>ฝึกคิดเลข | Math Practice</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,300..800&family=IBM+Plex+Mono:wght@400;500;600&family=Sarabun:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #faf8f3;
+    --bg-card: #ffffff;
+    --bg-soft: #f0ebe0;
+    --bg-darker: #ebe5d6;
+    --ink: #1a1814;
+    --ink-soft: #4a463e;
+    --ink-mute: #8a8478;
+    --line: #d8d2c2;
+    --line-soft: #e8e3d4;
+    --accent: #c84630;
+    --accent-soft: #f5d5cf;
+    --green: #5d7a4f;
+    --green-soft: #d8e4d2;
+    --blue: #3a5a78;
+    --blue-soft: #d4dde6;
+    --gold: #b8902c;
+    --shadow-sm: 0 1px 2px rgba(26, 24, 20, 0.04);
+    --shadow: 0 2px 8px rgba(26, 24, 20, 0.06), 0 1px 2px rgba(26, 24, 20, 0.04);
+    --shadow-lg: 0 8px 24px rgba(26, 24, 20, 0.08), 0 2px 6px rgba(26, 24, 20, 0.05);
+    --radius: 6px;
+    --radius-lg: 12px;
+    --font-display: "Bricolage Grotesque", system-ui, sans-serif;
+    --font-body: "Sarabun", "Bricolage Grotesque", system-ui, sans-serif;
+    --font-mono: "IBM Plex Mono", "Courier New", monospace;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #1a1814;
+      --bg-card: #25221c;
+      --bg-soft: #2e2a23;
+      --bg-darker: #38332a;
+      --ink: #f5f1e6;
+      --ink-soft: #c8c2b3;
+      --ink-mute: #8a8478;
+      --line: #3d3830;
+      --line-soft: #2e2a23;
+      --accent: #e87560;
+      --accent-soft: #4a2a25;
+      --green: #8db77a;
+      --green-soft: #2a3a23;
+      --blue: #6b95b8;
+      --blue-soft: #2a3540;
+      --gold: #d4a942;
+    }
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: var(--font-body);
+    background: var(--bg);
+    color: var(--ink);
+    min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+    background-image:
+      radial-gradient(circle at 15% 20%, var(--accent-soft) 0%, transparent 35%),
+      radial-gradient(circle at 85% 80%, var(--blue-soft) 0%, transparent 35%);
+    background-attachment: fixed;
+  }
+
+  .container {
+    max-width: 880px;
+    margin: 0 auto;
+    padding: 32px 20px 60px;
+  }
+
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 32px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .brand { display: flex; align-items: baseline; gap: 12px; }
+
+  .brand-mark {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 32px;
+    letter-spacing: -0.02em;
+    line-height: 1;
+  }
+
+  .brand-mark .accent { color: var(--accent); font-style: italic; }
+
+  .brand-tag {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--ink-mute);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .header-meta {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--ink-mute);
+    letter-spacing: 0.05em;
+  }
+
+  /* Mode tabs */
+  .mode-tabs {
+    display: flex;
+    gap: 4px;
+    margin-bottom: 16px;
+    padding: 4px;
+    background: var(--bg-darker);
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--line);
+    overflow-x: auto;
+  }
+
+  .mode-tab {
+    flex: 1;
+    min-width: fit-content;
+    padding: 10px 14px;
+    border-radius: var(--radius);
+    background: transparent;
+    border: none;
+    font-family: var(--font-body);
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--ink-soft);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+  }
+
+  .mode-tab:hover { color: var(--ink); }
+
+  .mode-tab.active {
+    background: var(--bg-card);
+    color: var(--ink);
+    box-shadow: var(--shadow-sm);
+    font-weight: 600;
+  }
+
+  /* Stats */
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1px;
+    background: var(--line);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    margin-bottom: 24px;
+    box-shadow: var(--shadow);
+  }
+
+  .stat {
+    background: var(--bg-card);
+    padding: 16px 18px;
+  }
+
+  .stat-label {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--ink-mute);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+
+  .stat-value {
+    font-family: var(--font-display);
+    font-size: 24px;
+    font-weight: 600;
+    line-height: 1;
+    letter-spacing: -0.01em;
+  }
+
+  .stat-value.mono { font-family: var(--font-mono); font-weight: 500; font-size: 22px; }
+  .stat-value.danger { color: var(--accent); }
+  .stat-value.success { color: var(--green); }
+
+  /* Controls */
+  .controls {
+    background: var(--bg-card);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-lg);
+    padding: 16px;
+    margin-bottom: 16px;
+    box-shadow: var(--shadow-sm);
+  }
+
+  .control-row {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+
+  .control-row + .control-row {
+    margin-top: 12px;
+    padding-top: 12px;
+    border-top: 1px dashed var(--line);
+  }
+
+  .field { display: flex; align-items: center; gap: 6px; }
+
+  .field label {
+    font-size: 12px;
+    color: var(--ink-soft);
+    font-weight: 500;
+  }
+
+  input[type="number"], select, input[type="text"] {
+    font-family: var(--font-mono);
+    font-size: 14px;
+    padding: 7px 10px;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    background: var(--bg);
+    color: var(--ink);
+    transition: border-color 0.15s, background 0.15s;
+  }
+
+  input[type="number"] { width: 60px; text-align: center; }
+  select { width: 100px; cursor: pointer; }
+
+  input:focus, select:focus {
+    outline: none;
+    border-color: var(--ink);
+    background: var(--bg-card);
+  }
+
+  button {
+    font-family: var(--font-body);
+    font-size: 13px;
+    font-weight: 500;
+    padding: 7px 14px;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    background: var(--bg-card);
+    color: var(--ink);
+    cursor: pointer;
+    transition: all 0.15s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    white-space: nowrap;
+  }
+
+  button:hover:not(:disabled) {
+    background: var(--bg-soft);
+    border-color: var(--ink-mute);
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-sm);
+  }
+
+  button:active:not(:disabled) { transform: translateY(0); }
+
+  button:disabled { opacity: 0.4; cursor: not-allowed; }
+
+  button.primary {
+    background: var(--ink);
+    color: var(--bg);
+    border-color: var(--ink);
+  }
+  button.primary:hover:not(:disabled) { background: var(--ink-soft); border-color: var(--ink-soft); }
+
+  button.success {
+    background: var(--green);
+    color: white;
+    border-color: var(--green);
+  }
+  button.success:hover:not(:disabled) { filter: brightness(0.92); }
+
+  button.danger { color: var(--accent); border-color: var(--accent); }
+  button.danger:hover:not(:disabled) { background: var(--accent); color: white; }
+
+  button.tiny { font-size: 11px; padding: 4px 10px; }
+
+  /* Toggle */
+  .toggle-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 14px;
+    background: var(--bg-soft);
+    border-radius: var(--radius);
+    margin-top: 12px;
+  }
+
+  .toggle { position: relative; width: 38px; height: 22px; flex-shrink: 0; }
+  .toggle input { opacity: 0; width: 0; height: 0; }
+  .toggle-slider {
+    position: absolute;
+    inset: 0;
+    background: var(--line);
+    border-radius: 22px;
+    transition: 0.2s;
+    cursor: pointer;
+  }
+  .toggle-slider::before {
+    content: "";
+    position: absolute;
+    width: 16px; height: 16px;
+    left: 3px; top: 3px;
+    background: white;
+    border-radius: 50%;
+    transition: 0.2s;
+    box-shadow: var(--shadow-sm);
+  }
+  .toggle input:checked + .toggle-slider { background: var(--accent); }
+  .toggle input:checked + .toggle-slider::before { transform: translateX(16px); }
+  .toggle-label { font-size: 13px; font-weight: 500; cursor: pointer; flex: 1; }
+  .toggle-hint { font-size: 11px; color: var(--ink-mute); font-family: var(--font-mono); }
+
+  /* Divisor / Multiplier picker */
+  .number-picker {
+    display: flex;
+    gap: 4px;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+
+  .num-btn {
+    width: 36px;
+    height: 36px;
+    padding: 0;
+    border-radius: var(--radius);
+    font-family: var(--font-mono);
+    font-size: 15px;
+    font-weight: 600;
+    background: var(--bg-card);
+    border: 1.5px solid var(--line);
+    color: var(--ink-soft);
+    cursor: pointer;
+    transition: all 0.15s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .num-btn:hover { border-color: var(--ink); color: var(--ink); }
+
+  .num-btn.active {
+    background: var(--accent);
+    color: white;
+    border-color: var(--accent);
+    transform: scale(1.05);
+    box-shadow: var(--shadow);
+  }
+
+  /* Problem */
+  .problem {
+    background: var(--bg-card);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-lg);
+    padding: 36px 24px;
+    margin-bottom: 16px;
+    min-height: 160px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    overflow-x: auto;
+    position: relative;
+    box-shadow: var(--shadow);
+  }
+
+  .problem-empty {
+    color: var(--ink-mute);
+    font-size: 14px;
+    font-style: italic;
+  }
+
+  .problem-numbers {
+    font-family: var(--font-mono);
+    font-weight: 500;
+    line-height: 1.5;
+    text-align: right;
+    display: inline-block;
+  }
+
+  .problem-numbers .row { white-space: nowrap; }
+
+  .problem-numbers .op-slot {
+    display: inline-block;
+    width: 1.3em;
+    text-align: left;
+  }
+
+  .problem-numbers .op-sub { color: var(--accent); }
+  .problem-numbers .op-mul { color: var(--blue); }
+  .problem-numbers .op-add { color: var(--green); }
+  .problem-numbers .op-div { color: var(--gold); }
+
+  .problem-numbers .divider {
+    border-top: 2px solid var(--ink);
+    margin-top: 8px;
+    padding-top: 8px;
+    color: var(--ink-mute);
+  }
+
+  /* Divisibility problem styling */
+  .divis-problem {
+    text-align: center;
+    font-family: var(--font-mono);
+  }
+
+  .divis-question {
+    font-size: 13px;
+    color: var(--ink-mute);
+    margin-bottom: 12px;
+    font-family: var(--font-body);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+
+  .divis-number {
+    font-size: 38px;
+    font-weight: 600;
+    margin-bottom: 12px;
+    letter-spacing: -0.01em;
+  }
+
+  .divis-divisor {
+    font-size: 16px;
+    color: var(--ink-soft);
+    font-family: var(--font-body);
+  }
+
+  .divis-divisor strong {
+    color: var(--gold);
+    font-size: 22px;
+    font-family: var(--font-mono);
+    font-weight: 700;
+  }
+
+  .reverse-badge, .mode-badge {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    font-size: 10px;
+    padding: 3px 10px;
+    background: var(--accent);
+    color: white;
+    border-radius: 12px;
+    font-family: var(--font-mono);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    font-weight: 500;
+  }
+
+  .mode-badge { background: var(--blue); }
+
+  /* Divisibility buttons */
+  .yes-no-row {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    margin-top: 8px;
+  }
+
+  .yes-no-btn {
+    flex: 1;
+    max-width: 180px;
+    padding: 16px 24px;
+    font-size: 18px;
+    font-weight: 600;
+    border-radius: var(--radius-lg);
+    cursor: pointer;
+    transition: all 0.15s ease;
+    border: 2px solid;
+    font-family: var(--font-display);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+  }
+
+  .yes-no-btn.yes {
+    background: var(--bg-card);
+    color: var(--green);
+    border-color: var(--green);
+  }
+  .yes-no-btn.yes:hover { background: var(--green); color: white; transform: translateY(-2px); }
+
+  .yes-no-btn.no {
+    background: var(--bg-card);
+    color: var(--accent);
+    border-color: var(--accent);
+  }
+  .yes-no-btn.no:hover { background: var(--accent); color: white; transform: translateY(-2px); }
+
+  /* Answer section */
+  .answer-section {
+    background: var(--bg-card);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-lg);
+    padding: 16px;
+    margin-bottom: 16px;
+    box-shadow: var(--shadow-sm);
+  }
+
+  .answer-row {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+  }
+
+  #answer {
+    flex: 1;
+    font-size: 18px;
+    font-weight: 500;
+    padding: 10px 14px;
+  }
+
+  .feedback {
+    margin-top: 10px;
+    font-size: 13px;
+    min-height: 20px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  .feedback.success { color: var(--green); font-weight: 500; }
+  .feedback.danger { color: var(--accent); font-weight: 500; }
+  .feedback.muted { color: var(--ink-mute); }
+
+  .compare-box {
+    display: none;
+    margin-top: 12px;
+    padding: 14px;
+    background: var(--bg-soft);
+    border-radius: var(--radius);
+    border: 1px solid var(--line-soft);
+    overflow-x: auto;
+  }
+
+  .compare-box.show { display: block; }
+
+  .compare-note {
+    font-size: 12px;
+    color: var(--blue);
+    margin-bottom: 10px;
+    padding: 8px 12px;
+    background: var(--blue-soft);
+    border-radius: var(--radius);
+    font-family: var(--font-body);
+  }
+
+  .compare-rows {
+    font-family: var(--font-mono);
+    font-size: 18px;
+    line-height: 1.8;
+    white-space: nowrap;
+  }
+
+  .compare-rows .label {
+    display: inline-block;
+    width: 80px;
+    font-size: 11px;
+    color: var(--ink-mute);
+    font-family: var(--font-body);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
+  .compare-rows .miss {
+    background: var(--accent-soft);
+    color: var(--accent);
+    padding: 0 3px;
+    border-radius: 3px;
+    font-weight: 700;
+  }
+
+  .compare-rows .hit {
+    background: var(--green-soft);
+    color: var(--green);
+    padding: 0 3px;
+    border-radius: 3px;
+    font-weight: 700;
+  }
+
+  /* History */
+  .history {
+    background: var(--bg-card);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-lg);
+    padding: 16px;
+    box-shadow: var(--shadow-sm);
+  }
+
+  .history-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .history-title {
+    font-family: var(--font-display);
+    font-size: 16px;
+    font-weight: 600;
+  }
+
+  .history-actions {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+
+  .confirm-bar {
+    display: none;
+    padding: 12px 14px;
+    margin-bottom: 12px;
+    background: var(--accent-soft);
+    border: 1px solid var(--accent);
+    border-radius: var(--radius);
+  }
+
+  .confirm-bar.show { display: block; }
+
+  .confirm-text { color: var(--accent); font-size: 13px; font-weight: 500; margin-bottom: 8px; }
+  .confirm-actions { display: flex; gap: 6px; }
+
+  .history-list { font-size: 13px; }
+
+  .history-empty {
+    color: var(--ink-mute);
+    font-style: italic;
+    text-align: center;
+    padding: 16px;
+  }
+
+  .history-row {
+    padding: 10px 0;
+    border-bottom: 1px solid var(--line-soft);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px;
+  }
+  .history-row:last-child { border-bottom: none; }
+
+  .history-info { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+
+  .history-num {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 14px;
+  }
+
+  .history-stats {
+    color: var(--ink-soft);
+    font-family: var(--font-mono);
+    font-size: 12px;
+  }
+
+  .history-acc {
+    font-weight: 600;
+    padding: 2px 8px;
+    border-radius: 10px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+  }
+
+  .acc-high { background: var(--green-soft); color: var(--green); }
+  .acc-mid  { background: #f5e8d0; color: var(--gold); }
+  .acc-low  { background: var(--accent-soft); color: var(--accent); }
+
+  .mode-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 3px;
+    background: var(--blue-soft);
+    color: var(--blue);
+    padding: 1px 6px;
+    border-radius: 8px;
+    font-size: 10px;
+    font-family: var(--font-mono);
+    letter-spacing: 0.03em;
+  }
+
+  .history-more {
+    text-align: center;
+    color: var(--ink-mute);
+    font-size: 11px;
+    padding: 8px 0 0;
+    font-style: italic;
+  }
+
+  /* Summary */
+  .summary { text-align: center; line-height: 1.8; }
+
+  .summary-title {
+    font-family: var(--font-display);
+    font-size: 22px;
+    font-weight: 700;
+    margin-bottom: 12px;
+    letter-spacing: -0.01em;
+  }
+
+  .summary-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin: 16px 0;
+    max-width: 380px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .summary-stat { padding: 10px; background: var(--bg-soft); border-radius: var(--radius); }
+  .summary-stat .num { font-family: var(--font-display); font-size: 22px; font-weight: 700; line-height: 1; margin-bottom: 4px; }
+  .summary-stat .lbl { font-size: 11px; color: var(--ink-mute); text-transform: uppercase; letter-spacing: 0.05em; }
+  .summary-acc { font-family: var(--font-display); font-size: 28px; font-weight: 700; color: var(--green); margin-top: 12px; }
+
+  .hidden { display: none !important; }
+
+  /* Mobile */
+  @media (max-width: 600px) {
+    .container { padding: 16px 12px 40px; }
+    .header { flex-direction: column; align-items: flex-start; gap: 8px; }
+    .brand-mark { font-size: 26px; }
+    .stats-grid { grid-template-columns: repeat(2, 1fr); }
+    .stat-value { font-size: 20px; }
+    .problem { padding: 24px 16px; }
+    .summary-grid { grid-template-columns: 1fr; max-width: 240px; }
+    button { font-size: 13px; padding: 8px 12px; }
+    .divis-number { font-size: 30px; }
+    .num-btn { width: 32px; height: 32px; font-size: 14px; }
+  }
+
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
+  .problem, .stats-grid, .controls, .answer-section, .history { animation: fadeIn 0.3s ease-out; }
+
+  @keyframes pop { 0% { transform: scale(1); } 50% { transform: scale(1.05); } 100% { transform: scale(1); } }
+  .pop { animation: pop 0.3s ease-out; }
+</style>
+</head>
+<body>
+
+<div class="container">
+
+  <header class="header">
+    <div class="brand">
+      <div class="brand-mark">เลข<span class="accent">ฝึก</span></div>
+      <div class="brand-tag">v2.0 / mental math trainer</div>
+    </div>
+    <div class="header-meta" id="dateMeta"></div>
+  </header>
+
+  <!-- Mode tabs -->
+  <div class="mode-tabs" role="tablist">
+    <button class="mode-tab active" data-mode="arith">+ − × คำนวณ</button>
+    <button class="mode-tab" data-mode="mulsingle">× คูณหลักเดียว</button>
+    <button class="mode-tab" data-mode="divtest">÷ ทดสอบหารลงตัว</button>
+  </div>
+
+  <!-- Stats -->
+  <div class="stats-grid">
+    <div class="stat">
+      <div class="stat-label">สถานะ</div>
+      <div class="stat-value" id="status" style="font-size: 16px;">พร้อมเริ่ม</div>
+    </div>
+    <div class="stat">
+      <div class="stat-label">เวลา</div>
+      <div class="stat-value mono" id="timer">00:00</div>
+    </div>
+    <div class="stat">
+      <div class="stat-label">ทำไปแล้ว</div>
+      <div class="stat-value" id="count">0</div>
+    </div>
+    <div class="stat">
+      <div class="stat-label">ผิด</div>
+      <div class="stat-value danger" id="wrong">0</div>
+    </div>
+  </div>
+
+  <!-- Controls: Arith mode -->
+  <div class="controls" id="ctrlArith">
+    <div class="control-row">
+      <div class="field">
+        <label>หลัก</label>
+        <input type="number" id="digits" value="10" min="1" max="20" />
+      </div>
+      <div class="field">
+        <label>ทศนิยม</label>
+        <input type="number" id="decimals" value="0" min="0" max="10" />
+      </div>
+      <div class="field">
+        <label>โหมด</label>
+        <select id="op">
+          <option value="sub">ลบ</option>
+          <option value="add">บวก</option>
+          <option value="mul">คูณ</option>
+        </select>
+      </div>
+      <div style="flex: 1;"></div>
+      <button id="startBtn" class="primary">▶ เริ่ม</button>
+      <button id="stopBtn" disabled>■ หยุด</button>
+    </div>
+
+    <div class="toggle-row">
+      <label class="toggle">
+        <input type="checkbox" id="reverseMode" />
+        <span class="toggle-slider"></span>
+      </label>
+      <div style="flex: 1;">
+        <label class="toggle-label" for="reverseMode">โหมดใส่กลับตัวเลข</label>
+        <div class="toggle-hint">พิมพ์คำตอบกลับด้านได้ ระบบจะกลับให้ตอนตรวจ</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Controls: Multiply single-digit mode -->
+  <div class="controls hidden" id="ctrlMulSingle">
+    <div class="control-row">
+      <div class="field">
+        <label>หลักของตัวคูณใหญ่</label>
+        <input type="number" id="mulBigDigits" value="5" min="1" max="15" />
+      </div>
+      <div style="flex: 1;"></div>
+      <button id="startBtn2" class="primary">▶ เริ่ม</button>
+      <button id="stopBtn2" disabled>■ หยุด</button>
+    </div>
+    <div class="control-row">
+      <div style="font-size: 12px; color: var(--ink-soft); font-weight: 500; margin-right: 4px;">ตัวคูณหลักเดียว:</div>
+      <div class="number-picker" id="mulSinglePicker">
+        <!-- buttons 2-9 -->
+      </div>
+      <div style="font-size: 11px; color: var(--ink-mute); margin-left: 4px;">(เลือกได้หลายตัว ระบบจะสุ่มจากที่เลือก)</div>
+    </div>
+  </div>
+
+  <!-- Controls: Divisibility test mode -->
+  <div class="controls hidden" id="ctrlDivTest">
+    <div class="control-row">
+      <div class="field">
+        <label>หลักของตัวเลขที่จะทดสอบ</label>
+        <input type="number" id="divDigits" value="6" min="1" max="15" />
+      </div>
+      <div style="flex: 1;"></div>
+      <button id="startBtn3" class="primary">▶ เริ่ม</button>
+      <button id="stopBtn3" disabled>■ หยุด</button>
+    </div>
+    <div class="control-row">
+      <div style="font-size: 12px; color: var(--ink-soft); font-weight: 500; margin-right: 4px;">ตัวหาร:</div>
+      <div class="number-picker" id="divPicker">
+        <!-- buttons 2-9 -->
+      </div>
+      <div style="font-size: 11px; color: var(--ink-mute); margin-left: 4px;">(เลือกได้หลายตัว ระบบจะสุ่มจากที่เลือก)</div>
+    </div>
+  </div>
+
+  <!-- Problem -->
+  <div class="problem" id="problem">
+    <div class="problem-empty">กดปุ่ม "เริ่ม" เพื่อเริ่มฝึก</div>
+  </div>
+
+  <!-- Answer (text input) -->
+  <div class="answer-section" id="answerSection" style="display: none;">
+    <div class="answer-row">
+      <input type="text" id="answer" placeholder="ใส่คำตอบของคุณ..." autocomplete="off" inputmode="decimal" />
+      <button id="submitBtn" class="success">✓ ตรวจ</button>
+      <button id="skipBtn">→ ข้าม</button>
+    </div>
+    <div class="feedback" id="feedback"></div>
+    <div class="compare-box" id="compareBox"></div>
+  </div>
+
+  <!-- Answer (yes/no for divisibility) -->
+  <div class="answer-section" id="yesnoSection" style="display: none;">
+    <div class="yes-no-row">
+      <button class="yes-no-btn yes" id="yesBtn">✓ หารได้</button>
+      <button class="yes-no-btn no" id="noBtn">✗ หารไม่ได้</button>
+    </div>
+    <div class="feedback" id="feedback2" style="justify-content: center; text-align: center;"></div>
+  </div>
+
+  <!-- History -->
+  <div class="history">
+    <div class="history-header">
+      <div class="history-title">ประวัติการฝึก</div>
+      <div class="history-actions">
+        <button id="showAllBtn" class="tiny">รายการทั้งหมด</button>
+        <button id="editBtn" class="tiny">แก้ไข</button>
+        <button id="clearBtn" class="tiny danger">ลบทั้งหมด</button>
+      </div>
+    </div>
+    <div class="confirm-bar" id="confirmBar">
+      <div class="confirm-text" id="confirmText">ยืนยันการลบ?</div>
+      <div class="confirm-actions">
+        <button id="confirmYes" class="danger tiny">ใช่ ลบ</button>
+        <button id="confirmNo" class="tiny">ยกเลิก</button>
+      </div>
+    </div>
+    <div class="history-list" id="historyList">
+      <div class="history-empty">ยังไม่มีประวัติ</div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+(function() {
+  'use strict';
+
+  const STORAGE_KEY = 'math_practice_history_v2';
+  const PICKER_KEY = 'math_practice_pickers_v2';
+
+  let state = {
+    running: false,
+    mode: 'arith', // arith | mulsingle | divtest
+    startTime: 0,
+    timerInterval: null,
+    count: 0,
+    wrong: 0,
+    currentA: null,
+    currentB: null,
+    currentOp: 'sub',
+    currentDivisor: null,
+    currentExpected: null,
+    history: [],
+    showAll: false,
+    editMode: false,
+    pendingAction: null,
+    autoNextTimeout: null,
+    reverseMode: false,
+    mulSelectedSingles: [2,3,4,5,6,7,8,9],
+    divSelectedDivisors: [2,3,4,5,6,7,8,9]
+  };
+
+  const $ = id => document.getElementById(id);
+
+  // ===== Storage =====
+
+  function loadHistory() {
+    try {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if (raw) state.history = JSON.parse(raw);
+    } catch(e) { state.history = []; }
+  }
+
+  function saveHistory() {
+    try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state.history)); } catch(e) {}
+  }
+
+  function loadPickers() {
+    try {
+      const raw = localStorage.getItem(PICKER_KEY);
+      if (raw) {
+        const p = JSON.parse(raw);
+        if (Array.isArray(p.mul) && p.mul.length) state.mulSelectedSingles = p.mul;
+        if (Array.isArray(p.div) && p.div.length) state.divSelectedDivisors = p.div;
+      }
+    } catch(e) {}
+  }
+
+  function savePickers() {
+    try {
+      localStorage.setItem(PICKER_KEY, JSON.stringify({
+        mul: state.mulSelectedSingles,
+        div: state.divSelectedDivisors
+      }));
+    } catch(e) {}
+  }
+
+  // ===== Utilities =====
+
+  function reverseNumber(numStr) {
+    numStr = String(numStr).replace(/,/g, '').trim();
+    const neg = numStr.startsWith('-');
+    if (neg) numStr = numStr.slice(1);
+    const dotIdx = numStr.indexOf('.');
+    let digits;
+    if (dotIdx === -1) digits = numStr;
+    else digits = numStr.slice(0, dotIdx) + numStr.slice(dotIdx + 1);
+    const reversed = digits.split('').reverse().join('');
+    let result;
+    if (dotIdx === -1) result = reversed;
+    else result = reversed.slice(0, dotIdx) + '.' + reversed.slice(dotIdx);
+    return (neg ? '-' : '') + result;
+  }
+
+  function randomNum(digits, decimals) {
+    let intPart = '';
+    intPart += Math.floor(Math.random() * 9) + 1;
+    for (let i = 1; i < digits; i++) intPart += Math.floor(Math.random() * 10);
+    if (decimals > 0) {
+      let decPart = '';
+      for (let i = 0; i < decimals; i++) decPart += Math.floor(Math.random() * 10);
+      return parseFloat(intPart + '.' + decPart);
+    }
+    return parseInt(intPart);
+  }
+
+  // Generate integer with specific number of digits
+  function randomInteger(digits) {
+    let s = '' + (Math.floor(Math.random() * 9) + 1);
+    for (let i = 1; i < digits; i++) s += Math.floor(Math.random() * 10);
+    return parseInt(s);
+  }
+
+  function pickRandom(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
+
+  function formatNum(n) {
+    return n.toLocaleString('en-US', { maximumFractionDigits: 20 });
+  }
+
+  function formatDate() {
+    const d = new Date();
+    const months = ['ม.ค.', 'ก.พ.', 'มี.ค.', 'เม.ย.', 'พ.ค.', 'มิ.ย.', 'ก.ค.', 'ส.ค.', 'ก.ย.', 'ต.ค.', 'พ.ย.', 'ธ.ค.'];
+    return `${d.getDate()} ${months[d.getMonth()]} ${d.getFullYear() + 543}`;
+  }
+
+  function modeLabel(m) {
+    if (m === 'arith') return 'คำนวณ';
+    if (m === 'mulsingle') return 'คูณหลักเดียว';
+    if (m === 'divtest') return 'ทดสอบหาร';
+    return m;
+  }
+
+  // ===== Comparison (for arith mode wrong answers) =====
+
+  function buildComparison(userStr, correctStr) {
+    function splitNum(s) {
+      s = String(s).replace(/,/g, '');
+      const neg = s.startsWith('-');
+      s = neg ? s.slice(1) : s;
+      const idx = s.indexOf('.');
+      return { neg, intPart: idx === -1 ? s : s.slice(0, idx), decPart: idx === -1 ? '' : s.slice(idx + 1) };
+    }
+    const u = splitNum(userStr);
+    const c = splitNum(correctStr);
+    const maxInt = Math.max(u.intPart.length, c.intPart.length);
+    const maxDec = Math.max(u.decPart.length, c.decPart.length);
+    u.intPart = u.intPart.padStart(maxInt, ' ');
+    c.intPart = c.intPart.padStart(maxInt, ' ');
+    u.decPart = u.decPart.padEnd(maxDec, ' ');
+    c.decPart = c.decPart.padEnd(maxDec, ' ');
+
+    function withCommas(intStr) {
+      const trimmed = intStr.replace(/^ +/, '');
+      const lead = intStr.slice(0, intStr.length - trimmed.length);
+      let result = '';
+      let cnt = 0;
+      for (let i = trimmed.length - 1; i >= 0; i--) {
+        if (cnt > 0 && cnt % 3 === 0) result = ',' + result;
+        result = trimmed[i] + result;
+        cnt++;
+      }
+      return lead + result;
+    }
+    const uIntCommas = withCommas(u.intPart);
+    const cIntCommas = withCommas(c.intPart);
+    const uDisplay = (u.neg ? '-' : '') + uIntCommas + (maxDec > 0 ? '.' + u.decPart : '');
+    const cDisplay = (c.neg ? '-' : '') + cIntCommas + (maxDec > 0 ? '.' + c.decPart : '');
+    const len = Math.max(uDisplay.length, cDisplay.length);
+    const userPadded = uDisplay.padStart(len, ' ');
+    const correctPadded = cDisplay.padStart(len, ' ');
+    let userHtml = '', correctHtml = '';
+    for (let i = 0; i < len; i++) {
+      const uc = userPadded[i], cc = correctPadded[i];
+      const isDigit = /[0-9]/.test(uc) || /[0-9]/.test(cc);
+      const same = uc === cc;
+      if (isDigit && !same) {
+        userHtml += `<span class="miss">${uc === ' ' ? '·' : uc}</span>`;
+        correctHtml += `<span class="hit">${cc === ' ' ? '·' : cc}</span>`;
+      } else {
+        userHtml += uc === ' ' ? '&nbsp;' : uc;
+        correctHtml += cc === ' ' ? '&nbsp;' : cc;
+      }
+    }
+    return { userHtml, correctHtml };
+  }
+
+  function showCompare(userStr, correctStr, isReverse, originalUserInput) {
+    const cmp = buildComparison(userStr, correctStr);
+    const reverseInfo = isReverse
+      ? `<div class="compare-note">🔄 โหมดกลับตัวเลข: คุณพิมพ์ <strong>${originalUserInput}</strong> → ระบบกลับเป็น <strong>${userStr}</strong></div>`
+      : '';
+    $('compareBox').innerHTML = `
+      ${reverseInfo}
+      <div style="font-size: 12px; color: var(--ink-mute); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.05em;">เปรียบเทียบหลักที่ผิด</div>
+      <div class="compare-rows">
+        <div><span class="label">คุณตอบ</span>${cmp.userHtml}</div>
+        <div><span class="label">คำตอบ</span>${cmp.correctHtml}</div>
+      </div>
+      <div style="margin-top: 12px;"><button id="nextBtn" class="primary">→ ข้อต่อไป</button></div>
+    `;
+    $('compareBox').classList.add('show');
+    $('nextBtn').addEventListener('click', () => {
+      $('compareBox').classList.remove('show');
+      newProblem();
+    });
+  }
+
+  // ===== History =====
+
+  function renderHistory() {
+    const container = $('historyList');
+    if (state.history.length === 0) {
+      container.innerHTML = '<div class="history-empty">ยังไม่มีประวัติ — เริ่มฝึกกันเลย!</div>';
+      return;
+    }
+    const items = state.showAll ? state.history.slice() : state.history.slice(-5);
+    const reversed = items.slice().reverse();
+    container.innerHTML = '';
+    reversed.forEach((h) => {
+      const realIndex = state.history.indexOf(h);
+      const num = realIndex + 1;
+      const acc = h.count > 0 ? Math.round(((h.count - h.wrong) / h.count) * 100) : 0;
+      const accClass = acc >= 90 ? 'acc-high' : acc >= 70 ? 'acc-mid' : 'acc-low';
+      
+      const modeTags = [];
+      if (h.mode && h.mode !== 'arith') modeTags.push(`<span class="mode-tag">${modeLabel(h.mode)}</span>`);
+      if (h.reverseMode) modeTags.push(`<span class="mode-tag">🔄 กลับ</span>`);
+      
+      const row = document.createElement('div');
+      row.className = 'history-row';
+      row.innerHTML = `
+        <div class="history-info">
+          <span class="history-num">#${num}</span>
+          ${modeTags.join(' ')}
+          <span class="history-stats">${h.count} ข้อ · ผิด ${h.wrong} · ${h.time} นาที</span>
+          <span class="history-acc ${accClass}">${acc}%</span>
+        </div>
+      `;
+      if (state.editMode) {
+        const btn = document.createElement('button');
+        btn.className = 'tiny danger';
+        btn.innerHTML = '🗑 ลบ';
+        btn.addEventListener('click', () => deleteHistoryItem(realIndex));
+        row.appendChild(btn);
+      }
+      container.appendChild(row);
+    });
+    if (!state.showAll && state.history.length > 5) {
+      const more = document.createElement('div');
+      more.className = 'history-more';
+      more.textContent = `แสดง 5 รายการล่าสุด จากทั้งหมด ${state.history.length} รายการ`;
+      container.appendChild(more);
+    }
+  }
+
+  function showConfirm(text, action) {
+    state.pendingAction = action;
+    $('confirmText').textContent = text;
+    $('confirmBar').classList.add('show');
+  }
+
+  function hideConfirm() {
+    state.pendingAction = null;
+    $('confirmBar').classList.remove('show');
+  }
+
+  function deleteHistoryItem(index) {
+    showConfirm('ลบประวัติครั้งที่ ' + (index + 1) + '?', () => {
+      state.history.splice(index, 1);
+      saveHistory();
+      renderHistory();
+    });
+  }
+
+  function clearAllHistory() {
+    if (state.history.length === 0) return;
+    showConfirm('ลบประวัติทั้งหมด ' + state.history.length + ' รายการ?', () => {
+      state.history = [];
+      saveHistory();
+      renderHistory();
+    });
+  }
+
+  // ===== Number picker rendering =====
+
+  function renderNumberPickers() {
+    const mulContainer = $('mulSinglePicker');
+    const divContainer = $('divPicker');
+    mulContainer.innerHTML = '';
+    divContainer.innerHTML = '';
+
+    for (let n = 2; n <= 9; n++) {
+      const btn1 = document.createElement('button');
+      btn1.type = 'button';
+      btn1.className = 'num-btn' + (state.mulSelectedSingles.includes(n) ? ' active' : '');
+      btn1.textContent = n;
+      btn1.addEventListener('click', () => {
+        const idx = state.mulSelectedSingles.indexOf(n);
+        if (idx === -1) state.mulSelectedSingles.push(n);
+        else if (state.mulSelectedSingles.length > 1) state.mulSelectedSingles.splice(idx, 1);
+        savePickers();
+        btn1.classList.toggle('active');
+      });
+      mulContainer.appendChild(btn1);
+
+      const btn2 = document.createElement('button');
+      btn2.type = 'button';
+      btn2.className = 'num-btn' + (state.divSelectedDivisors.includes(n) ? ' active' : '');
+      btn2.textContent = n;
+      btn2.addEventListener('click', () => {
+        const idx = state.divSelectedDivisors.indexOf(n);
+        if (idx === -1) state.divSelectedDivisors.push(n);
+        else if (state.divSelectedDivisors.length > 1) state.divSelectedDivisors.splice(idx, 1);
+        savePickers();
+        btn2.classList.toggle('active');
+      });
+      divContainer.appendChild(btn2);
+    }
+  }
+
+  // ===== Mode tabs =====
+
+  function setMode(mode) {
+    if (state.running) {
+      if (!confirmStopForModeSwitch()) return;
+    }
+    state.mode = mode;
+    document.querySelectorAll('.mode-tab').forEach(t => {
+      t.classList.toggle('active', t.dataset.mode === mode);
+    });
+    $('ctrlArith').classList.toggle('hidden', mode !== 'arith');
+    $('ctrlMulSingle').classList.toggle('hidden', mode !== 'mulsingle');
+    $('ctrlDivTest').classList.toggle('hidden', mode !== 'divtest');
+    
+    // Reset problem display
+    $('problem').innerHTML = '<div class="problem-empty">กดปุ่ม "เริ่ม" เพื่อเริ่มฝึก</div>';
+    $('answerSection').style.display = 'none';
+    $('yesnoSection').style.display = 'none';
+    $('compareBox').classList.remove('show');
+    $('status').textContent = 'พร้อมเริ่ม';
+    $('status').style.color = '';
+    $('count').textContent = '0';
+    $('wrong').textContent = '0';
+    $('timer').textContent = '00:00';
+  }
+
+  function confirmStopForModeSwitch() {
+    // Auto stop the running session and save it
+    stop();
+    return true;
+  }
+
+  // ===== Problem building =====
+
+  function buildArithProblemHtml(a, b, op) {
+    const opSymbol = op === 'sub' ? '−' : op === 'mul' ? '×' : '+';
+    const opClass = 'op-' + op;
+    const aStr = formatNum(a);
+    const bStr = formatNum(b);
+    const maxLen = Math.max(aStr.length, bStr.length);
+    let fontSize = 32;
+    if (maxLen > 12) fontSize = 26;
+    if (maxLen > 16) fontSize = 22;
+    if (maxLen > 22) fontSize = 18;
+    if (maxLen > 28) fontSize = 15;
+    const reverseBadge = state.reverseMode ? '<div class="reverse-badge">🔄 กลับตัวเลข</div>' : '';
+    return `
+      ${reverseBadge}
+      <div class="problem-numbers" style="font-size: ${fontSize}px;">
+        <div class="row"><span class="op-slot">&nbsp;</span>${aStr}</div>
+        <div class="row"><span class="op-slot ${opClass}">${opSymbol}</span>${bStr}</div>
+        <div class="row divider">?</div>
+      </div>
+    `;
+  }
+
+  function buildMulSingleProblemHtml(big, single) {
+    const aStr = formatNum(big);
+    const bStr = String(single);
+    const maxLen = aStr.length;
+    let fontSize = 36;
+    if (maxLen > 8) fontSize = 30;
+    if (maxLen > 12) fontSize = 24;
+    if (maxLen > 16) fontSize = 20;
+    const badge = '<div class="mode-badge">× หลักเดียว</div>';
+    return `
+      ${badge}
+      <div class="problem-numbers" style="font-size: ${fontSize}px;">
+        <div class="row"><span class="op-slot">&nbsp;</span>${aStr}</div>
+        <div class="row"><span class="op-slot op-mul">×</span>${bStr}</div>
+        <div class="row divider">?</div>
+      </div>
+    `;
+  }
+
+  function buildDivTestHtml(num, divisor) {
+    return `
+      <div class="mode-badge" style="background: var(--gold);">÷ ทดสอบหาร</div>
+      <div class="divis-problem">
+        <div class="divis-question">ตัวเลขนี้หารด้วย <strong style="color: var(--gold);">${divisor}</strong> ลงตัวหรือไม่?</div>
+        <div class="divis-number">${formatNum(num)}</div>
+      </div>
+    `;
+  }
+
+  // ===== Problem flow =====
+
+  function newProblem() {
+    if (state.autoNextTimeout) { clearTimeout(state.autoNextTimeout); state.autoNextTimeout = null; }
+    $('compareBox').classList.remove('show');
+    $('feedback').textContent = '';
+    $('feedback').className = 'feedback';
+    $('feedback2').textContent = '';
+    $('feedback2').className = 'feedback';
+
+    if (state.mode === 'arith') {
+      const digits = parseInt($('digits').value) || 10;
+      const decimals = parseInt($('decimals').value) || 0;
+      const op = $('op').value;
+      state.currentOp = op;
+      state.reverseMode = $('reverseMode').checked;
+
+      let a = randomNum(digits, decimals);
+      let b = randomNum(digits, decimals);
+      if (op === 'sub' && b > a) [a, b] = [b, a];
+      state.currentA = a;
+      state.currentB = b;
+      $('problem').innerHTML = buildArithProblemHtml(a, b, op);
+      $('answerSection').style.display = 'block';
+      $('yesnoSection').style.display = 'none';
+      $('answer').value = '';
+      $('answer').focus();
+    } 
+    else if (state.mode === 'mulsingle') {
+      const bigDigits = parseInt($('mulBigDigits').value) || 5;
+      const big = randomInteger(bigDigits);
+      const single = pickRandom(state.mulSelectedSingles);
+      state.currentA = big;
+      state.currentB = single;
+      state.currentOp = 'mul';
+      $('problem').innerHTML = buildMulSingleProblemHtml(big, single);
+      $('answerSection').style.display = 'block';
+      $('yesnoSection').style.display = 'none';
+      $('answer').value = '';
+      $('answer').focus();
+    } 
+    else if (state.mode === 'divtest') {
+      const digits = parseInt($('divDigits').value) || 6;
+      const num = randomInteger(digits);
+      const divisor = pickRandom(state.divSelectedDivisors);
+      state.currentA = num;
+      state.currentDivisor = divisor;
+      state.currentExpected = (num % divisor === 0); // boolean
+      $('problem').innerHTML = buildDivTestHtml(num, divisor);
+      $('answerSection').style.display = 'none';
+      $('yesnoSection').style.display = 'block';
+    }
+  }
+
+  function checkArithAnswer() {
+    const rawInput = $('answer').value.trim();
+    if (!rawInput) {
+      $('feedback').textContent = 'กรุณาใส่ตัวเลข';
+      $('feedback').className = 'feedback muted';
+      return;
+    }
+    let processedInput = rawInput;
+    if (state.reverseMode && state.mode === 'arith') processedInput = reverseNumber(rawInput);
+    const userAns = parseFloat(processedInput.replace(/,/g, ''));
+    if (isNaN(userAns)) {
+      $('feedback').textContent = 'กรุณาใส่ตัวเลขที่ถูกต้อง';
+      $('feedback').className = 'feedback muted';
+      return;
+    }
+    let correct;
+    if (state.currentOp === 'sub') correct = state.currentA - state.currentB;
+    else if (state.currentOp === 'mul') correct = state.currentA * state.currentB;
+    else correct = state.currentA + state.currentB;
+    correct = Math.round(correct * 1e10) / 1e10;
+    const userRounded = Math.round(userAns * 1e10) / 1e10;
+    state.count++;
+    if (userRounded === correct) {
+      const reverseNote = state.reverseMode && state.mode === 'arith'
+        ? ` <span style="font-size: 12px; color: var(--ink-mute);">(${rawInput} → ${formatNum(userAns)})</span>`
+        : '';
+      $('feedback').innerHTML = `✓ ถูกต้อง!${reverseNote}`;
+      $('feedback').className = 'feedback success';
+      $('count').classList.add('pop');
+      setTimeout(() => $('count').classList.remove('pop'), 300);
+      state.autoNextTimeout = setTimeout(newProblem, (state.reverseMode && state.mode === 'arith') ? 1100 : 600);
+    } else {
+      state.wrong++;
+      const correctStr = formatNum(correct);
+      const userStr = formatNum(userAns);
+      const reverseNote = state.reverseMode && state.mode === 'arith'
+        ? ` <span style="font-size: 12px; color: var(--ink-mute);">(พิมพ์: ${rawInput} → กลับ: ${userStr})</span>`
+        : '';
+      $('feedback').innerHTML = `✗ ผิด · คำตอบที่ถูก: <strong>${correctStr}</strong>${reverseNote} <button id="showCmpBtn" class="tiny">🔍 ดูจุดที่ผิด</button>`;
+      $('feedback').className = 'feedback danger';
+      $('showCmpBtn').addEventListener('click', () => showCompare(userStr, correctStr, state.reverseMode && state.mode === 'arith', rawInput));
+    }
+    updateStats();
+  }
+
+  function answerDivTest(userSaid) {
+    state.count++;
+    if (userSaid === state.currentExpected) {
+      $('feedback2').innerHTML = `✓ ถูกต้อง! ${state.currentExpected ? `${formatNum(state.currentA)} ÷ ${state.currentDivisor} = ${formatNum(state.currentA / state.currentDivisor)}` : `${formatNum(state.currentA)} ÷ ${state.currentDivisor} = ${(state.currentA / state.currentDivisor).toFixed(3)} (เศษ ${state.currentA % state.currentDivisor})`}`;
+      $('feedback2').className = 'feedback success';
+      $('count').classList.add('pop');
+      setTimeout(() => $('count').classList.remove('pop'), 300);
+      state.autoNextTimeout = setTimeout(newProblem, 1300);
+    } else {
+      state.wrong++;
+      const truth = state.currentExpected;
+      const quotient = state.currentA / state.currentDivisor;
+      const remainder = state.currentA % state.currentDivisor;
+      const detail = truth 
+        ? `${formatNum(state.currentA)} ÷ ${state.currentDivisor} = ${formatNum(quotient)} <strong>(ลงตัว)</strong>` 
+        : `${formatNum(state.currentA)} ÷ ${state.currentDivisor} = ${quotient.toFixed(3)} <strong>(เศษ ${remainder})</strong>`;
+      $('feedback2').innerHTML = `✗ ผิด · ที่ถูกคือ "${truth ? 'หารได้' : 'หารไม่ได้'}"<br><span style="font-family: var(--font-mono); font-size: 13px;">${detail}</span> <button id="nextBtn2" class="tiny primary">→ ข้อต่อไป</button>`;
+      $('feedback2').className = 'feedback danger';
+      $('nextBtn2').addEventListener('click', newProblem);
+    }
+    updateStats();
+  }
+
+  function skipProblem() {
+    state.count++;
+    state.wrong++;
+    if (state.mode === 'divtest') {
+      const truth = state.currentExpected;
+      $('feedback2').innerHTML = `→ ข้าม · ที่ถูกคือ "${truth ? 'หารได้' : 'หารไม่ได้'}"`;
+      $('feedback2').className = 'feedback muted';
+    } else {
+      let correct;
+      if (state.currentOp === 'sub') correct = state.currentA - state.currentB;
+      else if (state.currentOp === 'mul') correct = state.currentA * state.currentB;
+      else correct = state.currentA + state.currentB;
+      correct = Math.round(correct * 1e10) / 1e10;
+      $('feedback').innerHTML = `→ ข้าม · คำตอบ: <strong>${formatNum(correct)}</strong>`;
+      $('feedback').className = 'feedback muted';
+    }
+    updateStats();
+    state.autoNextTimeout = setTimeout(newProblem, 1500);
+  }
+
+  function updateStats() {
+    $('count').textContent = state.count;
+    $('wrong').textContent = state.wrong;
+  }
+
+  function tick() {
+    const elapsed = Math.floor((Date.now() - state.startTime) / 1000);
+    const m = Math.floor(elapsed / 60).toString().padStart(2, '0');
+    const s = (elapsed % 60).toString().padStart(2, '0');
+    $('timer').textContent = `${m}:${s}`;
+  }
+
+  function start() {
+    // Validate selections
+    if (state.mode === 'mulsingle' && state.mulSelectedSingles.length === 0) {
+      alert('กรุณาเลือกตัวคูณหลักเดียวอย่างน้อย 1 ตัว');
+      return;
+    }
+    if (state.mode === 'divtest' && state.divSelectedDivisors.length === 0) {
+      alert('กรุณาเลือกตัวหารอย่างน้อย 1 ตัว');
+      return;
+    }
+
+    state.running = true;
+    state.startTime = Date.now();
+    state.count = 0;
+    state.wrong = 0;
+    state.reverseMode = $('reverseMode').checked;
+    updateStats();
+    state.timerInterval = setInterval(tick, 1000);
+    
+    // Update all start/stop buttons across modes
+    ['startBtn','startBtn2','startBtn3'].forEach(id => { if ($(id)) $(id).disabled = true; });
+    ['stopBtn','stopBtn2','stopBtn3'].forEach(id => { if ($(id)) $(id).disabled = false; });
+    
+    if (state.mode === 'arith') {
+      $('status').textContent = state.reverseMode ? 'กลับตัวเลข' : 'กำลังฝึก';
+    } else if (state.mode === 'mulsingle') {
+      $('status').textContent = 'คูณหลักเดียว';
+    } else if (state.mode === 'divtest') {
+      $('status').textContent = 'ทดสอบหาร';
+    }
+    $('status').style.color = 'var(--green)';
+    newProblem();
+  }
+
+  function stop() {
+    if (!state.running) return;
+    state.running = false;
+    clearInterval(state.timerInterval);
+    if (state.autoNextTimeout) clearTimeout(state.autoNextTimeout);
+    const elapsed = (Date.now() - state.startTime) / 1000;
+    const minutes = (elapsed / 60).toFixed(2);
+    const acc = state.count > 0 ? Math.round(((state.count - state.wrong) / state.count) * 100) : 0;
+    
+    if (state.count > 0) {
+      state.history.push({
+        count: state.count,
+        wrong: state.wrong,
+        time: minutes,
+        mode: state.mode,
+        reverseMode: state.mode === 'arith' ? state.reverseMode : false,
+        date: new Date().toISOString()
+      });
+      saveHistory();
+      renderHistory();
+    }
+    
+    ['startBtn','startBtn2','startBtn3'].forEach(id => { if ($(id)) $(id).disabled = false; });
+    ['stopBtn','stopBtn2','stopBtn3'].forEach(id => { if ($(id)) $(id).disabled = true; });
+    
+    $('status').textContent = 'จบเซสชัน';
+    $('status').style.color = 'var(--ink)';
+    $('answerSection').style.display = 'none';
+    $('yesnoSection').style.display = 'none';
+    $('compareBox').classList.remove('show');
+    
+    const modeText = ` (${modeLabel(state.mode)}${state.mode === 'arith' && state.reverseMode ? ' · กลับตัวเลข' : ''})`;
+    $('problem').innerHTML = `
+      <div class="summary">
+        <div class="summary-title">สรุปผล${modeText}</div>
+        <div class="summary-grid">
+          <div class="summary-stat"><div class="num">${state.count}</div><div class="lbl">ทำได้</div></div>
+          <div class="summary-stat"><div class="num" style="color: var(--accent);">${state.wrong}</div><div class="lbl">ผิด</div></div>
+          <div class="summary-stat"><div class="num">${minutes}</div><div class="lbl">นาที</div></div>
+        </div>
+        <div class="summary-acc">${acc}%</div>
+        <div style="font-size: 12px; color: var(--ink-mute); margin-top: 8px;">ความแม่นยำ</div>
+      </div>
+    `;
+  }
+
+  // ===== Event bindings =====
+
+  document.querySelectorAll('.mode-tab').forEach(t => {
+    t.addEventListener('click', () => setMode(t.dataset.mode));
+  });
+
+  // All start/stop buttons trigger start/stop
+  ['startBtn','startBtn2','startBtn3'].forEach(id => {
+    if ($(id)) $(id).addEventListener('click', start);
+  });
+  ['stopBtn','stopBtn2','stopBtn3'].forEach(id => {
+    if ($(id)) $(id).addEventListener('click', stop);
+  });
+
+  $('submitBtn').addEventListener('click', checkArithAnswer);
+  $('skipBtn').addEventListener('click', skipProblem);
+
+  $('yesBtn').addEventListener('click', () => answerDivTest(true));
+  $('noBtn').addEventListener('click', () => answerDivTest(false));
+
+  $('clearBtn').addEventListener('click', clearAllHistory);
+
+  $('reverseMode').addEventListener('change', () => {
+    if (state.running && state.mode === 'arith') {
+      state.reverseMode = $('reverseMode').checked;
+      $('status').textContent = state.reverseMode ? 'กลับตัวเลข' : 'กำลังฝึก';
+      const existingBadge = $('problem').querySelector('.reverse-badge');
+      if (existingBadge) existingBadge.remove();
+      if (state.reverseMode) {
+        $('problem').insertAdjacentHTML('afterbegin', '<div class="reverse-badge">🔄 กลับตัวเลข</div>');
+      }
+    }
+  });
+
+  $('editBtn').addEventListener('click', () => {
+    state.editMode = !state.editMode;
+    $('editBtn').textContent = state.editMode ? '✓ เสร็จ' : 'แก้ไข';
+    renderHistory();
+  });
+
+  $('showAllBtn').addEventListener('click', () => {
+    state.showAll = !state.showAll;
+    $('showAllBtn').textContent = state.showAll ? '5 ล่าสุด' : 'รายการทั้งหมด';
+    renderHistory();
+  });
+
+  $('confirmYes').addEventListener('click', () => {
+    if (state.pendingAction) state.pendingAction();
+    hideConfirm();
+  });
+  $('confirmNo').addEventListener('click', hideConfirm);
+
+  $('answer').addEventListener('keydown', e => {
+    if (e.key === 'Enter') checkArithAnswer();
+  });
+
+  // Keyboard shortcuts for div test (y/n, 1/2, ←/→)
+  document.addEventListener('keydown', (e) => {
+    if (state.mode === 'divtest' && state.running && $('yesnoSection').style.display !== 'none') {
+      if (e.key === 'y' || e.key === 'Y' || e.key === 'ArrowLeft' || e.key === '1') {
+        e.preventDefault();
+        answerDivTest(true);
+      } else if (e.key === 'n' || e.key === 'N' || e.key === 'ArrowRight' || e.key === '2') {
+        e.preventDefault();
+        answerDivTest(false);
+      }
+    }
+  });
+
+  // Init
+  $('dateMeta').textContent = formatDate();
+  loadPickers();
+  loadHistory();
+  renderNumberPickers();
+  renderHistory();
+
+})();
+</script>
+
+</body>
+</html>
